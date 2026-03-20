@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>給月球組</title>
+
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: monospace;
+  font-size: 20px;
+  padding: 40px;
+  overflow: hidden;
+}
+
+#bg {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: url('friend-photo-0218.jpg') no-repeat center center fixed;
+  background-size: cover;
+  opacity: 0;
+  transition: opacity 2s;
+  z-index: -1;
+}
+
+#container {
+  text-align: center;
+  margin-top: 100px;
+  text-shadow: 1px 1px 5px black;
+}
+
+#text {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  opacity: 0;
+  transition: opacity 1s;
+  text-align: left;
+  position: relative;
+}
+
+/* 小閃光點 */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: sparkle 1s linear infinite;
+}
+
+@keyframes sparkle {
+  0% {opacity:0; transform:scale(0);}
+  50% {opacity:1; transform:scale(1.2);}
+  100% {opacity:0; transform:scale(0);}
+}
+
+/* 點擊開始按鈕 */
+#start {
+  display: none;
+  cursor: pointer;
+  margin-top: 50px;
+  padding: 10px 20px;
+  background: rgba(255, 215, 0,0.8);
+  border-radius: 15px;
+  transition: background 0.5s, transform 0.3s;
+}
+#start:hover {
+  background: rgba(255, 223, 100,1);
+  transform: scale(1.05);
+}
+
+/* 密碼區 */
+#lock {
+  display: inline-block;
+  padding: 30px 40px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+#lock div {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+#lock input {
+  padding: 10px 15px;
+  font-size: 18px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px solid #FFD700;
+  outline: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+#lock input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+#lock input:focus {
+  border-color: #ffb347;
+  box-shadow: 0 0 8px rgba(255,179,71,0.5);
+}
+
+#lock button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+#lock button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+
+<body>
+
+<div id="bg"></div>
+
+<div id="container">
+
+  <!-- 密碼區 -->
+  <div id="lock">
+    <div>輸入你的生日（例如：0318）</div>
+    <input id="password" placeholder="MMDD">
+    <br>
+    <button onclick="checkPassword()">解鎖</button>
+    <div id="hint" style="color:orange;margin-top:10px;"></div>
+  </div>
+
+  <!-- 點擊開始 -->
+  <div id="start">點我一下</div>
+
+  <!-- 打字文字 -->
+  <div id="text"></div>
+
+</div>
+
+<script>
+const correctPassword = "0218"; // 壽星生日
+const message = `Hello佑佑，
+說實在，佑佑每年的生日歲數都是一個謎XD 自從自己過完29歲生日後，好羨慕擁有凍齡技能的佑佑啊！！
+覺得佑佑有一顆年輕的心，更是團隊中不可或缺的存在XD 
+不論是從前一起服事的經驗或是月球慶生活動，張羅各樣大小事從沒嘆氣過XD
+謝謝你在團隊中願意付出自己成為大家的幫助，
+不管身為領導者或是參與的角色，都很願意調整自己的每個腳步，為著大家著想，成就團隊更好的方向，
+感謝神擺下謙卑、親和力、樂意學習及鼓勵人的特質在佑佑身上，
+相信這些都是神所擺下在佑佑身上的能力，如同馬太福音5:16
+「你們的光也當這樣照在人前，叫他們看見你們的好行為，便將榮耀歸給你們在天上的父。」
+不管在教會、主日學、工作或家庭中，願都能倚靠神繼續散發這樣生命的影響力！
+祝福佑佑新的一歲，生命有更多新的突破，也繼續保有與神連結的天線！和宜蓁也繼續甜蜜蜜下去歐XD
+
+生日大快樂！！ 🎂🎂🎂`;
+
+let i = 0;
+
+// 驗證密碼
+function checkPassword() {
+  const input = document.getElementById("password").value;
+  if(input === correctPassword){
+    document.getElementById("lock").style.display = "none";
+    document.getElementById("start").style.display = "block";
+  } else {
+    document.getElementById("hint").innerText = "再想一下XD";
+  }
+}
+
+// 點擊開始
+document.getElementById("start").addEventListener("click", function(){
+  document.getElementById("bg").style.opacity = 1;
+  document.getElementById("start").style.display = "none";
+  setTimeout(()=>{
+    document.getElementById("text").style.opacity = 1;
+    typing();
+    createSparkles();
+  }, 1000);
+});
+
+// 打字效果
+function typing(){
+  if(i < message.length){
+    let speed = 50;
+    if(message.charAt(i) === "\n") speed = 200;
+    document.getElementById("text").innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typing, speed);
+  }
+}
+
+// 生成小閃光點
+function createSparkles(){
+  for(let j=0;j<15;j++){
+    let sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.top = Math.random()*window.innerHeight + 'px';
+    sparkle.style.left = Math.random()*window.innerWidth + 'px';
+    document.body.appendChild(sparkle);
+    setTimeout(()=> sparkle.remove(), 1500);
+  }
+  setTimeout(createSparkles, 500);
+}
+</script>
+
+</body>
+</html>
